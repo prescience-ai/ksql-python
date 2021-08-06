@@ -81,7 +81,7 @@ def parse_columns(columns_str):
 
 
 def process_row(row, column_names):
-    row = row.replace(",\n", "").replace("]\n", "")
+    row = row.replace(",\n", "").replace("]\n", "").replace('}]','}')
     row_obj = json.loads(row)
     if "finalMessage" in row_obj:
         return None
@@ -89,7 +89,11 @@ def process_row(row, column_names):
     index = 0
     result = {}
     for column in column_values:
-        result[column_names[index]["name"]] = column
+        if index > len(column_names)-1:
+            x = "UNKNOWN"
+        else:
+            x = column_names[index]["name"]
+        result[x] = column
         index += 1
 
     return result
